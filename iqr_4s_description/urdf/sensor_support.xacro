@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sensor_support">
+
+  <xacro:macro name="sensor_support" params="package parent *origin">
+    <xacro:property name="prefix" value="sensor_support"/>
+
+    <!-- VLP-16 support link -->
+    <link name="vlp16_support_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package}/urdf/mesh/vlp16_support.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="vlp16_support_link_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="vlp16_support_link"/>
+    </joint>
+
+    <link name="vlp16_mount_link"/>
+    <joint name="vlp16_mount_link_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.084" rpy="0.0 0.0 0.0"/>
+      <parent link="vlp16_support_link"/>
+      <child link="vlp16_mount_link"/>
+    </joint>
+
+    <!-- camera support link -->
+    <link name="camera_support_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package}/urdf/mesh/camera_support.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="camera_support_link_joint" type="fixed">
+      <origin xyz="0.0625 0.0 0.050" rpy="0.0 0.0 0.0" />
+      <parent link="vlp16_support_link"/>
+      <child link="camera_support_link"/>
+    </joint>
+
+    <link name="camera_mount_link"/>
+    <joint name="camera_mount_link_joint" type="fixed">
+      <origin xyz="0.03611 0.0 -0.00939" rpy="0.0 0.0 0.0"/>
+      <parent link="camera_support_link"/>
+      <child link="camera_mount_link"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>
