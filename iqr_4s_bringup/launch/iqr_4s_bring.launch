@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- Robot Description -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find iqr_4s_description)/urdf/iqr_4s_robot.urdf.xacro" />
+  <!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /-->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- JACKAL -->
+  <include file="$(find iqr_4s_bringup)/launch/include/jackal.launch.xml">
+  </include>
+
+  <!-- VLP16 -->
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+    <arg name="device_ip" default="192.168.33.7" />
+    <arg name="frame_id" default="velodyne"/>
+    <arg name="max_range" default="100.0" />
+    <arg name="rpm" default="600" />
+  </include>
+
+  <!-- intel realsense d435i -->
+  <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+    <arg name="tf_prefix"             value="camera"/>
+    <arg name="initial_reset"         value="false"/>
+    <arg name="enable_sync"           value="true"/>
+    <arg name="align_depth"           value="true"/>
+  </include>
+
+</launch>
